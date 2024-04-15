@@ -127,13 +127,12 @@ const Content = () => {
                 return;
             }
 
-            const response = await fetch(api('todo'), {
+            const response = await fetch(api(`todo/${editingId}`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: editingId,
                     todo: text
                 })
             });
@@ -266,17 +265,11 @@ const Content = () => {
     const handleIconDelete = async (id: string) => {
         if (showTodos) {
             if (id === editingId) {
-                resetAction();
+                resetAction()
             }
 
-            const response = await fetch(api('todo'), {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    id: id
-                })
+            const response = await fetch(api(`todo/${id}`), {
+                method: 'DELETE'
             });
 
             const data: boolean = await response.json();
@@ -311,13 +304,12 @@ const Content = () => {
         const todo = allTodos.find(each => each.id === id);
 
         if (todo && showTodos) {
-            const response = await fetch(api('todo'), {
+            const response = await fetch(api(`todo/${id}`), {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    id: id,
                     isCompleted: !todo.isCompleted
                 })
             });

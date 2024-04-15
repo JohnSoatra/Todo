@@ -62,69 +62,9 @@ const POST = async(request: NextRequest): Promise<NextResponse<PostStatus>> => {
     });
 }
 
-const DELETE = async(request: NextRequest): Promise<NextResponse<boolean>> => {
-    const { id }: Json = await request.json();
 
-    if (id !== undefined) {
-        try {
-            await prismaClient.todo.delete({
-                where: {
-                    id: id
-                }
-            });
-
-            return NextResponse.json(true);
-        } catch {
-            return NextResponse.json(false);
-        }
-    }
-
-    return NextResponse.json(false);
-}
-
-const PUT = async(request: NextRequest): Promise<NextResponse<boolean>> => {
-    const { id, todo, isCompleted }: Json & { isCompleted?: boolean } = await request.json();
-
-    if (id !== undefined && (todo !== undefined || isCompleted !== undefined)) {
-        if (todo !== undefined) {
-            try {
-                await prismaClient.todo.update({
-                    where: {
-                        id: id
-                    },
-                    data: {
-                        todo: todo
-                    }
-                });
-
-                return NextResponse.json(true);
-            } catch {
-                return NextResponse.json(false);
-            }
-        } else {
-            try {
-                await prismaClient.todo.update({
-                    where: {
-                        id: id
-                    },
-                    data: {
-                        isCompleted: isCompleted
-                    }
-                });
-
-                return NextResponse.json(true);
-            } catch {
-                return NextResponse.json(false);
-            }
-        }
-    }
-
-    return NextResponse.json(false);
-}
 
 export {
     GET,
-    POST,
-    PUT,
-    DELETE
+    POST
 }
